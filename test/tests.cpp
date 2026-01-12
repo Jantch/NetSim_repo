@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
-
+#include "package.hxx"
+#include "storage_types.hxx"
+#include "types.hxx"
 
 TEST(PackageTest, IsAssignedIdLowest) {
     // przydzielanie ID o jeden większych -- utworzenie dwóch obiektów pod rząd
