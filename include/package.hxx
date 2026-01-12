@@ -5,7 +5,13 @@
 class Package {
 public:
     Package();
-    Package(ElementID id): id_(id) {};
+    Package(ElementID id);
+    Package(Package&&);
+
+    ~Package();
+    Package& operator=(Package&& other);
+
+    ElementID get_id() const {return id_;};
 private:
     ElementID id_;
     static std::set<ElementID> assigned_IDs;
