@@ -43,3 +43,4 @@
 # --- CLion & CMake specific ---
 cmake-build-*/
 .idea/
+googletest-master/
