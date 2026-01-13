@@ -42,7 +42,7 @@ target_link_libraries(NetSim_debug gtest gmock)
 # plików źródłowych z testami jednostkowymi.
 set(SOURCES_FILES_TESTS
         test/tests_halfproducts.cpp
-
+        test/tests_nodes.cpp
 )
 
 # Dodaj konfigurację typu `Test`.
