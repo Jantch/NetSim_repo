@@ -41,7 +41,7 @@ target_link_libraries(NetSim_debug gtest gmock)
 # Ustaw zmienną `SOURCES_FILES_TESTS`, która będzie przechowywać ścieżki do
 # plików źródłowych z testami jednostkowymi.
 set(SOURCES_FILES_TESTS
-        test/tests.cpp
+        test/tests_halfproducts.cpp
 
 )
 
