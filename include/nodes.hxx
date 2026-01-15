@@ -49,3 +49,17 @@ private:
     ProbabilityGenerator pg_;
     preferences_t preferences_;
 };
+
+class PackageSender {
+    public:
+    PackageSender(PackageSender&&) = default;
+    PackageSender() : receiver_preferences_(probability_generator) {}
+    ReceiverPreferences receiver_preferences_;
+
+    void send_package();
+    const std::optional<Package>& get_sending_buffer() const { return buffer_;};
+    protected:
+    void push_package(Package&& p) {buffer_ = std::move(p);}
+private:
+    std::optional<Package> buffer_;
+};
