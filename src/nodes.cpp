@@ -1,10 +1,12 @@
 #include "nodes.hxx"
 
+ReceiverPreferences::ReceiverPreferences(ProbabilityGenerator pg) : pg_(pg) {}
+
 void ReceiverPreferences::add_receiver(IPackageReceiver* r){
     preferences_[r] = 1.0;
     double n = preferences_.size();
 
-    if (n > 1){
+    if (n > 0){
         for(auto ite = preferences_.begin(); ite != preferences_.end(); ite++){
           ite->second = 1.0/n;
         }
@@ -32,12 +34,20 @@ IPackageReceiver* ReceiverPreferences::choose_receiver(){
 
     for (auto ite = preferences_.begin(); ite != preferences_.end(); ite++){
         sum += ite->second;
-        if(random < sum){
+        if(random <= sum){
         return ite->first;
         }
     }
    return preferences_.rbegin()->first;
 }
+
+const ReceiverPreferences::preferences_t& ReceiverPreferences::get_preferences() const {
+    return preferences_;
+}
+ReceiverPreferences::const_iterator ReceiverPreferences::cbegin() const { return preferences_.cbegin(); }
+ReceiverPreferences::const_iterator ReceiverPreferences::cend() const { return preferences_.cend(); }
+ReceiverPreferences::const_iterator ReceiverPreferences::begin() const { return preferences_.begin(); }
+ReceiverPreferences::const_iterator ReceiverPreferences::end() const { return preferences_.end(); }
 
 void PackageSender::send_package(){
     if(buffer_.has_value()){
@@ -46,5 +56,11 @@ void PackageSender::send_package(){
             receiver -> receive_package(std::move(*buffer_));
             buffer_.reset();
         }
+    }
+}
+
+void Ramp::deliver_goods(Time t) {
+    if (t % di_ == 1) {
+        push_package(Package());
     }
 }

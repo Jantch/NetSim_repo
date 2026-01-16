@@ -57,9 +57,22 @@ class PackageSender {
     ReceiverPreferences receiver_preferences_;
 
     void send_package();
-    const std::optional<Package>& get_sending_buffer() const { return buffer_;};
+    const std::optional<Package>& get_sending_buffer() const { return buffer_;}
     protected:
     void push_package(Package&& p) {buffer_ = std::move(p);}
 private:
     std::optional<Package> buffer_;
+};
+
+class Ramp : public PackageSender {
+public:
+    Ramp(ElementID id, TimeOffset di) : id_(id), di_(di) {}
+
+    void deliver_goods(Time t);
+    TimeOffset get_delivery_interval() const { return di_; }
+    ElementID get_id() const { return id_; }
+
+private:
+    ElementID id_;
+    TimeOffset di_;
 };
