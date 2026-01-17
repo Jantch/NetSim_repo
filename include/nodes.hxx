@@ -18,7 +18,6 @@ public:
 
     virtual void receive_package(Package&& p) = 0;
     virtual ElementID get_id() const = 0;
-    virtual ReceiverType get_receiver_type() const = 0;
 
     virtual const_iterator cbegin() const = 0;
     virtual const_iterator cend() const = 0;
@@ -83,7 +82,6 @@ public:
 
     void receive_package(Package&& p) override;
     ElementID get_id() const override { return id_; }
-    ReceiverType get_receiver_type() const override { return ReceiverType::WORKER; }
 
     const_iterator cbegin() const override { return queue_->cbegin(); }
     const_iterator cend() const override { return queue_->cend(); }
@@ -108,7 +106,6 @@ public:
 
     void receive_package(Package&& p) override;
     ElementID get_id() const override { return id_; }
-    ReceiverType get_receiver_type() const override { return ReceiverType::STOREHOUSE; }
 
     const_iterator cbegin() const override { return d_->cbegin(); }
     const_iterator cend() const override { return d_->cend(); }
