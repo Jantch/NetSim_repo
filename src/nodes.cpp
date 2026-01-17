@@ -64,3 +64,29 @@ void Ramp::deliver_goods(Time t) {
         push_package(Package());
     }
 }
+
+Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> queue) : id_(id), pd_(pd), queue_(std::move(queue)) {}
+
+void Worker::receive_package(Package&& p) {
+    queue_->push(std::move(p));
+}
+
+void Worker::do_work(Time t) {
+    if (!processing_buffer_ && !queue_->empty()) {
+        processing_buffer_ = queue_->pop();
+        t_start_ = t;
+    }
+
+    if (processing_buffer_) {
+        if (t - t_start_ + 1 >= pd_) {
+            push_package(std::move(*processing_buffer_));
+            processing_buffer_.reset();
+        }
+    }
+}
+
+Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d) : id_(id), d_(std::move(d)) {}
+
+void Storehouse::receive_package(Package&& p) {
+    d_->push(std::move(p));
+}
